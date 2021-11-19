@@ -1,0 +1,23 @@
+{
+  "name": "random_art_generator",
+  "version": "1.0.0",
+  "description": "art api when hit returns a random mural image",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cosmoglint/random_art_generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cosmoglint/random_art_generator/issues"
+  },
+  "homepage": "https://github.com/cosmoglint/random_art_generator#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
