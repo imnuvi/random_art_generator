@@ -77,11 +77,11 @@ async function runner(){
 //    return presignedUrl
 //  });
 //  new_url = new_url;
+  let new_url_lst = presigned_url.split("/");
+  console.log(new_url_lst);
   return presigned_url
 
-  console.log(new_url);
   // return new Promise(resolve=>{new_url});
-  return new_url
 };
 //  .then(
 //    (dat) => {
