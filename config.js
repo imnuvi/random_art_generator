@@ -10,7 +10,8 @@ module.exports = {
   accessKey: process.env.ACCESS_KEY,
   secretKey: process.env.SECRET_KEY,
   bucketName: process.env.BUCKET_NAME,
-  imageLocationLocal: process.env.IMAGE_LOCATION_LOCAL
+  imageLocationLocal: process.env.IMAGE_LOCATION_LOCAL,
+  hostPrefix: process.env.HOST_PREFIX
 }
 
 

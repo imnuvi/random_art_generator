@@ -5,7 +5,7 @@ var path = require('path');
 
 const url = 'file://' + path.join(__dirname, 'sketch', 'index.html');
 
-const {  endPoint, port, useSSL, accessKey, secretKey, bucketName, imageLocationLocal } = require('./config');
+const {  endPoint, port, useSSL, accessKey, secretKey, bucketName, imageLocationLocal, hostPrefix } = require('./config');
 console.log(bucketName, imageLocationLocal);
 var minioClient = new Minio.Client(
   {
@@ -21,6 +21,7 @@ var bucket_name = bucketName
 
 var metaData = {
       'Content-Type': 'image/png',
+      'x-amz-acl': 'authenticated-read',
       'X-Amz-Meta-random-number': 9390,
       'image-name': 'random_name'
   }
@@ -78,8 +79,9 @@ async function runner(){
 //  });
 //  new_url = new_url;
   let new_url_lst = presigned_url.split("/");
-  console.log(new_url_lst);
-  return presigned_url
+  updated_url = hostPrefix + new_url_lst.slice(3).join('/');
+  console.log(updated_url);
+  return updated_url
 
   // return new Promise(resolve=>{new_url});
 };
