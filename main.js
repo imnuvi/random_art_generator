@@ -45,7 +45,7 @@ async function generate_image(image_path){
   console.log(image_path);
   console.log(await browser.version());
   await browser.close();
-  return "bruh";
+  return Promise.resolve("bruh");
 };
 
 //async function put_image(bucket_name,file_name, file_path, metadata){
@@ -61,22 +61,24 @@ async function runner(){
   let generated_image_url = '';
   var gen_url = await generate_image(file_path)
   console.log(gen_url);
-  succeeded = await minioClient.fPutObject(bucket_name, file_name, file_path, metaData, function(err, etag){
+  var new_url = '';
+  minioClient.fPutObject(bucket_name, file_name, file_path, metaData, function(err, etag){
     if (err) return console.log(err);
 
     console.log(etag);
     console.log('file_uploaded_successfully');
-    return "success"
-  });
 
-  response_url = await minioClient.presignedUrl('GET', bucket_name, file_name, 24*60*60, function(err, presignedUrl) {
+  minioClient.presignedUrl('GET', bucket_name, file_name, 24*60*60, function(err, presignedUrl) {
     if (err) return console.log(err);
+    new_url = presignedUrl;
     return presignedUrl
   });
+  new_url = new_url;
+});
 
-  console.log(succeeded);
-  console.log(response_url);
-
+  console.log(new_url);
+  // return new Promise(resolve=>{new_url});
+  return new_url
 //  .then(
 //    (dat) => {
 //      put_image(bucket_name, file_name, file_path, metaData);
@@ -89,7 +91,10 @@ async function runner(){
 //    });
 }
 
-runner()
+// newnew = runner().then((url)=>{return url});
+//console.log(newnew);
+
+
 //.then((return_string) => {
 //});
 module.exports.runner = runner;
