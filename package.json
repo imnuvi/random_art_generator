@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/cosmoglint/random_art_generator#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "minio": "^7.0.19"
+    "minio": "^7.0.19",
+    "puppeteer": "^11.0.0"
   }
 }
