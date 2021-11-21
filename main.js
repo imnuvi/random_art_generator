@@ -45,37 +45,51 @@ async function generate_image(image_path){
   console.log(image_path);
   console.log(await browser.version());
   await browser.close();
+  return "bruh";
 };
 
-function put_image(bucket_name,file_name, file_path, metadata){
-  minioClient.fPutObject(bucket_name, file_name, file_path, metaData, function(err, etag){
+//async function put_image(bucket_name,file_name, file_path, metadata){
+//  await }
+
+//async function get_image_url(bucket_name, file_name){
+//  let the_url = await   return the_url
+//}
+
+async function runner(){
+  file_name = create_word(7) + '.png';
+  file_path = imageLocationLocal + file_name;
+  let generated_image_url = '';
+  var gen_url = await generate_image(file_path)
+  console.log(gen_url);
+  succeeded = await minioClient.fPutObject(bucket_name, file_name, file_path, metaData, function(err, etag){
     if (err) return console.log(err);
 
     console.log(etag);
     console.log('file_uploaded_successfully');
-  })
-}
+    return "success"
+  });
 
-function get_image_url(bucket_name, file_name){
-  minioClient.presignedUrl('GET', bucket_name, file_name, 24*60*60, function(err, presignedUrl) {
+  response_url = await minioClient.presignedUrl('GET', bucket_name, file_name, 24*60*60, function(err, presignedUrl) {
     if (err) return console.log(err);
-    console.log(presignedUrl);
-  })
+    return presignedUrl
+  });
+
+  console.log(succeeded);
+  console.log(response_url);
+
+//  .then(
+//    (dat) => {
+//      put_image(bucket_name, file_name, file_path, metaData);
+//    }).then(
+//    () => {
+//      get_image_url(bucket_name, file_name);
+//    }
+//  ).then((generated_image_url) => {
+//      return generated_image_url
+//    });
 }
 
-export async function runner(){
-  file_name = create_word(7) + '.png';
-  file_path = imageLocationLocal + file_name;
-  await generate_image(file_path)
-  .then(
-    () => {
-      put_image(bucket_name, file_name, file_path, metaData);
-    }).then(
-    () => {
-      return get_image_url(bucket_name, file_name);
-    }
-  )
-}
-
-console.log(imageLocationLocal);
-return_string = runner();
+runner()
+//.then((return_string) => {
+//});
+module.exports.runner = runner;

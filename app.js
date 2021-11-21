@@ -1,9 +1,8 @@
 const express = require('express');
-const { express_port } = require('config')
+const { expressPort } = require('./config');
 const app = express();
-const express_port = 3333;
 
-import { runner } = require('./main')
+const { runner } = require('./main')
 
 app.get('/', (req,res) => res.send("hello world bro"));
 
@@ -17,4 +16,4 @@ app.get('/image', (req,res) => {
   res.json(data)
 })
 
-app.listen(port, () => console.log(`listening on port ${port} bruh`))
+app.listen(expressPort, () => console.log(`listening on port ${expressPort} bruh`))
