@@ -10,15 +10,6 @@ function random_color(){
   return thecol;
 }
 
-function reportsize(){
-	resizeCanvas(windowWidth,windowHeight);
-  init();
-}
-
-// window.addEventListener('resize', reportsize);
-
-
-
 function create_2d_array(x_len,y_len){
   arr = new Array(x_len);
   for (let i=0; i<arr.length; i++){
@@ -108,10 +99,4 @@ function setup(){
   init();
   noStroke();
   noLoop();
-}
-
-
-function draw(){
-  // background(bg_color)
-  // circle(mouseX,mouseY,100);
 }
