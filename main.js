@@ -17,7 +17,7 @@ function create_word(length) {
    return result;
 }
 
-async function generate_image(image_path){
+async function generate_image(){
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url, {waitUntil: 'networkidle2'});
@@ -26,9 +26,4 @@ async function generate_image(image_path){
   return Promise.resolve(imageBuf);
 };
 
-async function runner(){
-  var imageBuffer = await generate_image()
-  return imageBuffer
-
-};
-module.exports.runner = runner;
+module.exports.generate_image = generate_image;
