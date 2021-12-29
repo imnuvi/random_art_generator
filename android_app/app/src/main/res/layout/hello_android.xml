@@ -8,12 +8,13 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/roll_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal
-"
+        android:layout_gravity="center_horizontal"
         android:textSize="30sp"
         android:text="1" />
+
     <Button
         android:id="@+id/roll_button"
         android:layout_width="wrap_content"
