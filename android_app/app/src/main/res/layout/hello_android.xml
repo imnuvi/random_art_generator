@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_gravity="center_vertical"
+tools:context=".MainActivity"
+android:orientation="vertical">
+
+<ImageView
+    android:id="@+id/my_canvas"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/roll_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="30sp"
-        android:text="1" />
-
-    <Button
-        android:id="@+id/roll_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/roll"></Button>
+    android:layout_height="match_parent"
+    android:src="@drawable/mycanvas"/>
 
 </LinearLayout>
