@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.core.content.res.ResourcesCompat
 import kotlin.math.min
+import kotlin.math.floor
 import kotlin.random.Random
 
 class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int=0) : ImageView(context, attrs, defStyleAttr) {
@@ -65,7 +66,7 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     // this function overload defines how the sketch is rendered on the screen. we will eventually save the image and set it as background
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-//        canvas?.drawLine(10f,10f,120f,120f, my_paint)
+        canvas?.drawLine(10f,10f,120f,120f, my_paint)
         for (i in segmentList){
             i.canvas = canvas
             i.my_paint = my_paint
@@ -74,18 +75,18 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     private fun createSegments() : MutableList<Segment>{
-        var segmentlist: MutableList<Segment> = mutableListOf<Segment>()
+        var new_segments: MutableList<Segment> = mutableListOf<Segment>()
         var testlist: MutableList<Segment> = mutableListOf<Segment>()
-        for (i in 1..segments_x) {
-            for (j in 1..segments_y){
+        for (i in 0..segments_x) {
+            for (j in 0..segments_y){
                 var newsegment : Segment = Segment(i, j, i*minwidth, j*minwidth, minwidth, minheight, my_paint, stroke_paint)
-                segmentlist.add(newsegment)
+                new_segments.add(newsegment)
             }
         }
 
         var newsegment : Segment = Segment(2, 2, 2*minwidth, 2*minwidth, minwidth, minheight,  my_paint, stroke_paint)
         testlist.add(newsegment)
-        return testlist
+        return new_segments
     }
 }
 
@@ -101,7 +102,7 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
     private var xpos: Int = xpos
     private var ypos: Int = ypos
     private var truex: Int = truex
-    private var truey: Int = truey
+    public var truey: Int = truey
     private var height: Int = height
 
     public fun show(){
@@ -125,7 +126,6 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
 
     private fun renderRectangle(){
         canvas.drawRect(this.truex.toFloat(), this.truey.toFloat(), 200f, 150f,  this.my_paint)
-        canvas.drawRect(this.truex.toFloat(), this.truey.toFloat(), 200f, 150f,  this.stroke_paint)
     }
 
     private fun renderTriangle() {
