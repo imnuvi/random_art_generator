@@ -103,7 +103,7 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
     private var xpos: Int = xpos
     private var ypos: Int = ypos
     private var truex: Int = truex
-    public var truey: Int = truey
+    private var truey: Int = truey
     private var height: Int = height
 
     public fun show(){
@@ -117,13 +117,6 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         // this.renderCircle()
         var testlist : List<Int> = listOf(1,2,5)
         this.renderHelper(testlist)
-//        var testpath: Path = Path().apply {  }
-//        testpath.moveTo(10f, 0f)
-//        testpath.lineTo(100f, 0f)
-//        testpath.lineTo(100f, 100f)
-//        testpath.lineTo(10f, 0f)
-//        testpath.close();
-//        canvas.drawPath(testpath, my_paint);
     }
 
     private fun renderRandom(){
@@ -150,14 +143,11 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         var iter: Int = 1
         var startx: Float = 0f
         var starty: Float = 0f
-        // println(width.toString().plus("       ").plus(height.toString()))
-        println("************************************")
         for (point in point_list){
            var (real_x, real_y) = helper(point)
            var (true_x_deviation, true_y_deviation) = Pair(real_x * width, real_y * height)
            var true_vals : Pair<Int, Int> = Pair(truex + true_x_deviation, truey + true_y_deviation)
            var (xloc, yloc) = true_vals
-           println(xloc.toString().plus("       ").plus(yloc.toString()))
            // this creates a path for the shape. the shape list should have the locations of the vertices.
            if (iter == 1){
                startx = xloc.toFloat()
@@ -181,11 +171,6 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
             Pair(0,1),Pair(1,1),Pair(2,1),
             Pair(0,2),Pair(1,2),Pair(2,2)
         )
-//        var location_map : List<Pair<Int, Int>> = listOf(
-//            Pair(0,0),Pair(0,1),Pair(0,2),
-//            Pair(1,0),Pair(1,1),Pair(1,2),
-//            Pair(2,0),Pair(2,1),Pair(2,2)
-//        )
         val actual_location : Int = location_number - 1
         val res : Pair<Int, Int> = location_map.get(actual_location)
         return res
