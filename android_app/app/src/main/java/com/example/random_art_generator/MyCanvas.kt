@@ -115,12 +115,23 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         // canvas.drawCircle(100f, 200f, 100f, this.my_paint)
         // this.renderRectangle()
         // this.renderCircle()
-        var testlist : List<Int> = listOf(1,2,5)
-        this.renderHelper(testlist)
+//        var testlist : List<Int> = listOf(1,2,5)
+        this.renderRandom()
     }
 
     private fun renderRandom(){
         // todo create a random function for rendering each style and colors
+        var orientation: Int = Random.nextInt(4)
+        var shape: Int = Random.nextInt(3)
+        if (shape == 0){
+           renderCircle()
+        }
+        else if (orientation == 1){
+            renderTriangle(orientation)
+        }
+        else if (orientation == 2) {
+            renderMixed(orientation)
+        }
     }
 
     // the helper functions will take the canvas element and draw the shape in it
@@ -133,8 +144,39 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         canvas.drawRect(this.truex.toFloat(), this.truey.toFloat(), 200f, 150f,  this.my_paint)
     }
 
-    private fun renderTriangle() {
+    private fun renderTriangle(orientation: Int) {
+        var pointList: List<Int> = listOf()
+        if (orientation == 0){
+           pointList = listOf(7,1,3)
+        }
+        else if (orientation == 1){
+            pointList = listOf(1,3,9)
+        }
+        else if (orientation == 2){
+            pointList = listOf(3,9,7)
+        }
+        else if (orientation == 3){
+            pointList = listOf(9,7,1)
+        }
+        renderCircle()
+        renderHelper(pointList)
+    }
 
+    private fun renderMixed(orientation: Int) {
+        var pointList: List<Int> = listOf()
+        if (orientation == 0){
+            pointList = listOf(4,1,2)
+        }
+        else if (orientation == 1){
+            pointList = listOf(2,3,6)
+        }
+        else if (orientation == 2){
+            pointList = listOf(6,9,8)
+        }
+        else if (orientation == 3){
+            pointList = listOf(8,7,4)
+        }
+        renderHelper(pointList)
     }
 
     private fun renderHelper(point_list: List<Int>){
@@ -145,7 +187,7 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         var starty: Float = 0f
         for (point in point_list){
            var (real_x, real_y) = helper(point)
-           var (true_x_deviation, true_y_deviation) = Pair(real_x * width, real_y * height)
+           var (true_x_deviation, true_y_deviation) = Pair(real_x * width/2, real_y * height/2)
            var true_vals : Pair<Int, Int> = Pair(truex + true_x_deviation, truey + true_y_deviation)
            var (xloc, yloc) = true_vals
            // this creates a path for the shape. the shape list should have the locations of the vertices.
