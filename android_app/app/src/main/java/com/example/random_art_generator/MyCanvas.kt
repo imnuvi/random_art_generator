@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.content.Context
 import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import androidx.core.content.res.ResourcesCompat
 import kotlin.math.min
@@ -66,7 +67,7 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     // this function overload defines how the sketch is rendered on the screen. we will eventually save the image and set it as background
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas?.drawLine(10f,10f,120f,120f, my_paint)
+        canvas.drawLine(10f,10f,120f,120f, my_paint)
         for (i in segmentList){
             i.canvas = canvas
             i.my_paint = my_paint
@@ -79,12 +80,12 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
         var testlist: MutableList<Segment> = mutableListOf<Segment>()
         for (i in 0..segments_x) {
             for (j in 0..segments_y){
-                var newsegment : Segment = Segment(i, j, i*minwidth, j*minwidth, minwidth, minheight, my_paint, stroke_paint)
+                var newsegment : Segment = Segment(i, j, i*segment_size, j*segment_size, segment_size, segment_size, my_paint, stroke_paint)
                 new_segments.add(newsegment)
             }
         }
 
-        var newsegment : Segment = Segment(2, 2, 2*minwidth, 2*minwidth, minwidth, minheight,  my_paint, stroke_paint)
+        var newsegment : Segment = Segment(2, 2, 2*segment_size, 2*segment_size, segment_size, segment_size,  my_paint, stroke_paint)
         testlist.add(newsegment)
         return new_segments
     }
@@ -102,7 +103,7 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
     private var xpos: Int = xpos
     private var ypos: Int = ypos
     private var truex: Int = truex
-    public var truey: Int = truey
+    private var truey: Int = truey
     private var height: Int = height
 
     public fun show(){
@@ -112,32 +113,105 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         val ypos: Int = content.second
         // canvas.drawText(xpos.toString().plus(ypos.toString()).plus("getoff my lane bruh"), 200f, 100f, my_paint)
         // canvas.drawCircle(100f, 200f, 100f, this.my_paint)
-        this.renderRectangle()
+        // this.renderRectangle()
+        // this.renderCircle()
+//        var testlist : List<Int> = listOf(1,2,5)
+        this.renderRandom()
     }
 
     private fun renderRandom(){
         // todo create a random function for rendering each style and colors
+        var orientation: Int = Random.nextInt(4)
+        var shape: Int = Random.nextInt(3)
+        if (shape == 0){
+           renderCircle()
+        }
+        else if (orientation == 1){
+            renderTriangle(orientation)
+        }
+        else if (orientation == 2) {
+            renderMixed(orientation)
+        }
     }
 
     // the helper functions will take the canvas element and draw the shape in it
-    private fun renderCircle(canvas: Canvas) {
-        canvas.drawCircle(100f, 200f, 100f, this.my_paint)
+    private fun renderCircle() {
+        my_paint.color = Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
+        canvas.drawCircle((this.truex + this.width/2 ).toFloat(), (this.truey + this.height/2).toFloat(), (this.width/2).toFloat(), this.my_paint)
     }
 
     private fun renderRectangle(){
         canvas.drawRect(this.truex.toFloat(), this.truey.toFloat(), 200f, 150f,  this.my_paint)
     }
 
-    private fun renderTriangle() {
+    private fun renderTriangle(orientation: Int) {
+        var pointList: List<Int> = listOf()
+        if (orientation == 0){
+           pointList = listOf(7,1,3)
+        }
+        else if (orientation == 1){
+            pointList = listOf(1,3,9)
+        }
+        else if (orientation == 2){
+            pointList = listOf(3,9,7)
+        }
+        else if (orientation == 3){
+            pointList = listOf(9,7,1)
+        }
+        renderCircle()
+        renderHelper(pointList)
+    }
 
+    private fun renderMixed(orientation: Int) {
+        var pointList: List<Int> = listOf()
+        if (orientation == 0){
+            pointList = listOf(4,1,2)
+        }
+        else if (orientation == 1){
+            pointList = listOf(2,3,6)
+        }
+        else if (orientation == 2){
+            pointList = listOf(6,9,8)
+        }
+        else if (orientation == 3){
+            pointList = listOf(8,7,4)
+        }
+        renderHelper(pointList)
+    }
+
+    private fun renderHelper(point_list: List<Int>){
+        var result_list : MutableList<Pair<Int, Int>> = mutableListOf()
+        var shapepath : Path = Path().apply{}
+        var iter: Int = 1
+        var startx: Float = 0f
+        var starty: Float = 0f
+        for (point in point_list){
+           var (real_x, real_y) = helper(point)
+           var (true_x_deviation, true_y_deviation) = Pair(real_x * width/2, real_y * height/2)
+           var true_vals : Pair<Int, Int> = Pair(truex + true_x_deviation, truey + true_y_deviation)
+           var (xloc, yloc) = true_vals
+           // this creates a path for the shape. the shape list should have the locations of the vertices.
+           if (iter == 1){
+               startx = xloc.toFloat()
+               starty = yloc.toFloat()
+               shapepath.moveTo(xloc.toFloat(), yloc.toFloat())
+           }
+           else {
+               shapepath.lineTo(xloc.toFloat(), yloc.toFloat())
+           }
+            iter += 1
+       }
+        shapepath.lineTo(startx, starty)
+        shapepath.close();
+        canvas.drawPath(shapepath, my_paint);
     }
 
     private fun helper(location_number: Int): Pair<Int, Int> {
         // given the part of a square as a keypad ( 1-9 ), the function returns x,y co ordinates. for eg: 3 - width, 0
         var location_map : List<Pair<Int, Int>> = listOf(
-            Pair(0,0),Pair(0,1),Pair(0,2),
-            Pair(1,0),Pair(1,1),Pair(1,2),
-            Pair(2,0),Pair(2,1),Pair(2,2)
+            Pair(0,0),Pair(1,0),Pair(2,0),
+            Pair(0,1),Pair(1,1),Pair(2,1),
+            Pair(0,2),Pair(1,2),Pair(2,2)
         )
         val actual_location : Int = location_number - 1
         val res : Pair<Int, Int> = location_map.get(actual_location)
