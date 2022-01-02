@@ -8,11 +8,12 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.min
 import kotlin.math.floor
 import kotlin.random.Random
 
-class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int=0) : ImageView(context, attrs, defStyleAttr) {
+class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int=0) : AppCompatImageView(context, attrs, defStyleAttr) {
     private lateinit var my_canvas: Canvas
 
     private var drawcolor = ResourcesCompat.getColor(resources, R.color.white, null)
@@ -29,6 +30,11 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setStrokeWidth(2F)
         setBackgroundColor(bgcolor)
     }
+    private var bg_paint = Paint().apply {
+        color = drawcolor
+        style = Paint.Style.FILL
+        setBackgroundColor(bgcolor)
+    }
     private var ww: Int = 0
     private var wh: Int = 0
     private var max_possible_width: Int = min(ww, wh)
@@ -38,6 +44,7 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var segmentList: MutableList<Segment> = mutableListOf()
     private var segments_x: Int = 0
     private var segments_y: Int = 0
+    private var palette: MutableList<Int> = create_palette()
 
     private var minheight: Int = 50
 
@@ -67,12 +74,31 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     // this function overload defines how the sketch is rendered on the screen. we will eventually save the image and set it as background
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        palette = create_palette()
         canvas.drawLine(10f,10f,120f,120f, my_paint)
+        bg_paint.color = palette.get(Random.nextInt(palette.size))
+        canvas.drawRect(0f,0f,ww.toFloat(),wh.toFloat(), bg_paint)
         for (i in segmentList){
             i.canvas = canvas
             i.my_paint = my_paint
+            i.my_paint.color = palette.get(Random.nextInt(palette.size))
             i.show()
         }
+    }
+
+
+    private fun create_palette() : MutableList<Int>{
+        var color_palette : MutableList<Int> = mutableListOf()
+//        color_palette.add(Color.argb(255, 185, 255, 252))
+//        color_palette.add(Color.argb(255, 154, 179, 245))
+//        color_palette.add(Color.argb(255, 33, 9, 78))
+//        color_palette.add(Color.argb(255, 255, 190, 105))
+//        color_palette.add(Color.argb(255, 255, 179, 236))
+        for (i in 1..4) {
+            color_palette.add(Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)))
+            color_palette.add(Color.argb(255, 185, 255, 252))
+        }
+        return color_palette
     }
 
     private fun createSegments() : MutableList<Segment>{
@@ -80,13 +106,11 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
         var testlist: MutableList<Segment> = mutableListOf<Segment>()
         for (i in 0..segments_x) {
             for (j in 0..segments_y){
-                var newsegment : Segment = Segment(i, j, i*segment_size, j*segment_size, segment_size, segment_size, my_paint, stroke_paint)
+                var segment_diff = segment_size * ( Random.nextInt(2) + 1 )
+                var newsegment : Segment = Segment(i, j, i*segment_size, j*segment_size, segment_diff, segment_diff, my_paint, stroke_paint)
                 new_segments.add(newsegment)
             }
         }
-
-        var newsegment : Segment = Segment(2, 2, 2*segment_size, 2*segment_size, segment_size, segment_size,  my_paint, stroke_paint)
-        testlist.add(newsegment)
         return new_segments
     }
 }
@@ -106,6 +130,8 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
     private var truey: Int = truey
     private var height: Int = height
 
+
+
     public fun show(){
        // split the screen into panes
         val content: Pair<Int, Int> = this.helper(4)
@@ -122,21 +148,27 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
     private fun renderRandom(){
         // todo create a random function for rendering each style and colors
         var orientation: Int = Random.nextInt(4)
-        var shape: Int = Random.nextInt(3)
+        var shape: Int = Random.nextInt(6)
+//        renderStrip(orientation)
         if (shape == 0){
            renderCircle()
         }
-        else if (orientation == 1){
+        else if (shape == 1){
             renderTriangle(orientation)
         }
-        else if (orientation == 2) {
+        else if (shape == 2) {
             renderMixed(orientation)
+        }
+        else if (shape == 4) {
+            renderSquare(orientation)
+        }
+        else if (shape == 5) {
+            renderStrip(orientation)
         }
     }
 
     // the helper functions will take the canvas element and draw the shape in it
     private fun renderCircle() {
-        my_paint.color = Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
         canvas.drawCircle((this.truex + this.width/2 ).toFloat(), (this.truey + this.height/2).toFloat(), (this.width/2).toFloat(), this.my_paint)
     }
 
@@ -144,6 +176,22 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         canvas.drawRect(this.truex.toFloat(), this.truey.toFloat(), 200f, 150f,  this.my_paint)
     }
 
+    private fun renderStrip(orientation: Int) {
+        var pointList: List<Int> = listOf()
+        if (orientation == 0){
+            pointList = listOf(7,4,2,3)
+        }
+        else if (orientation == 1){
+            pointList = listOf(1,2,6,9)
+        }
+        else if (orientation == 2){
+            pointList = listOf(3,6,8,7)
+        }
+        else if (orientation == 3){
+            pointList = listOf(9,8,4,1)
+        }
+        renderHelper(pointList)
+    }
     private fun renderTriangle(orientation: Int) {
         var pointList: List<Int> = listOf()
         if (orientation == 0){
@@ -158,7 +206,6 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         else if (orientation == 3){
             pointList = listOf(9,7,1)
         }
-        renderCircle()
         renderHelper(pointList)
     }
 
@@ -175,6 +222,24 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         }
         else if (orientation == 3){
             pointList = listOf(8,7,4)
+        }
+        renderCircle()
+        renderHelper(pointList)
+    }
+
+    private fun renderSquare(orientation: Int) {
+        var pointList: List<Int> = listOf()
+        if (orientation == 0){
+            pointList = listOf(1,2,5,4)
+        }
+        else if (orientation == 1){
+            pointList = listOf(2,3,6,5)
+        }
+        else if (orientation == 2){
+            pointList = listOf(6,9,8,5)
+        }
+        else if (orientation == 3){
+            pointList = listOf(8,7,4,5)
         }
         renderHelper(pointList)
     }
