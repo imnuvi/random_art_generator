@@ -1,12 +1,10 @@
 package com.example.random_art_generator
 
 import android.widget.ImageView
-import android.graphics.Canvas
-import android.graphics.Color
 import android.content.Context
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
+import android.view.ContextMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.min
@@ -15,6 +13,7 @@ import kotlin.random.Random
 
 class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int=0) : AppCompatImageView(context, attrs, defStyleAttr) {
     private lateinit var my_canvas: Canvas
+    private lateinit var return_canvas: Canvas
 
     private var drawcolor = ResourcesCompat.getColor(resources, R.color.white, null)
     private var bgcolor = ResourcesCompat.getColor(resources, R.color.black, null)
@@ -73,9 +72,9 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     // this function overload defines how the sketch is rendered on the screen. we will eventually save the image and set it as background
     override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+        this.my_canvas = canvas
+        super.onDraw(my_canvas)
         palette = create_palette()
-        canvas.drawLine(10f,10f,120f,120f, my_paint)
         bg_paint.color = palette.get(Random.nextInt(palette.size))
         canvas.drawRect(0f,0f,ww.toFloat(),wh.toFloat(), bg_paint)
         for (i in segmentList){
@@ -84,6 +83,13 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
             i.my_paint.color = palette.get(Random.nextInt(palette.size))
             i.show()
         }
+    }
+
+    fun getBitmap(): Bitmap{
+        var my_bitmap: Bitmap = Bitmap.createBitmap(this.ww, this.wh, Bitmap.Config.ARGB_8888)
+        return_canvas = Canvas(my_bitmap)
+        draw(return_canvas)
+        return my_bitmap
     }
 
 
