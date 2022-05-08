@@ -36,6 +36,7 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
     private var ww: Int = 0
     private var wh: Int = 0
+    private var copy_bitmap: Boolean = false
     private var max_possible_width: Int = min(ww, wh)
     private var minwidth: Int = 50
     private var segment_size: Int = 0
@@ -44,7 +45,6 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var segments_x: Int = 0
     private var segments_y: Int = 0
     private var palette: MutableList<Int> = create_palette()
-
     private var minheight: Int = 50
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -74,21 +74,35 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
     override fun onDraw(canvas: Canvas) {
         this.my_canvas = canvas
         super.onDraw(my_canvas)
-        palette = create_palette()
-        bg_paint.color = palette.get(Random.nextInt(palette.size))
-        canvas.drawRect(0f,0f,ww.toFloat(),wh.toFloat(), bg_paint)
-        for (i in segmentList){
-            i.canvas = canvas
-            i.my_paint = my_paint
-            i.my_paint.color = palette.get(Random.nextInt(palette.size))
-            i.show()
+        if (this.copy_bitmap == false) {
+            palette = create_palette()
+            bg_paint.color = palette.get(Random.nextInt(palette.size))
+            canvas.drawRect(0f, 0f, ww.toFloat(), wh.toFloat(), bg_paint)
+            for (i in segmentList) {
+                i.canvas = canvas
+                i.my_paint = my_paint
+                i.my_paint.color = palette.get(Random.nextInt(palette.size))
+                i.set_randos()
+                i.show()
+            }
+        }
+        else{
+            canvas.drawRect(0f, 0f, ww.toFloat(), wh.toFloat(), bg_paint)
+            for (i in segmentList) {
+                i.canvas = canvas
+                i.my_paint = my_paint
+                i.my_paint.color = palette.get(Random.nextInt(palette.size))
+                i.show()
+            }
         }
     }
 
     fun getBitmap(): Bitmap{
         var my_bitmap: Bitmap = Bitmap.createBitmap(this.ww, this.wh, Bitmap.Config.ARGB_8888)
         return_canvas = Canvas(my_bitmap)
+        this.copy_bitmap = true
         draw(return_canvas)
+        this.copy_bitmap = false
         return my_bitmap
     }
 
@@ -129,6 +143,8 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
 
     public var rand_color: Int = Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
 
+    private var orientation: Int = 0
+    private var shape: Int = 0
     private var width: Int = width
     private var xpos: Int = xpos
     private var ypos: Int = ypos
@@ -151,10 +167,13 @@ class Segment constructor(xpos: Int, ypos: Int, truex: Int, truey: Int, width: I
         this.renderRandom()
     }
 
+    fun set_randos(){
+        orientation = Random.nextInt(4)
+        shape = Random.nextInt(6)
+    }
+
     private fun renderRandom(){
         // todo create a random function for rendering each style and colors
-        var orientation: Int = Random.nextInt(4)
-        var shape: Int = Random.nextInt(6)
 //        renderStrip(orientation)
         if (shape == 0){
            renderCircle()

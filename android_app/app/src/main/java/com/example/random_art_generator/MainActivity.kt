@@ -39,13 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     fun setWallpaper(view: android.view.View) {
         val wallpaperManager = WallpaperManager.getInstance(baseContext)
-        print("*****************************J*")
-//        print(Build.VERSION.SDK_INT)
-        Toast.makeText(this, Build.VERSION.SDK, Toast.LENGTH_SHORT).show()
-//        Toast.makeText(this, "hello there", Toast.LENGTH_SHORT).show()
         my_bitmap = myCanvas.getBitmap()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            wallpaperManager.setBitmap(my_bitmap,null,true,WallpaperManager.FLAG_LOCK)
+            wallpaperManager.setBitmap(my_bitmap,null,true,WallpaperManager.FLAG_SYSTEM)
+            Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(this, "Error occoured when setting wallpaper", Toast.LENGTH_SHORT).show()
         }
     }
 
