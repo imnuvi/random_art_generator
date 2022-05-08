@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_android)
+//        supportActionBar?.title = "xoll"
+        supportActionBar?.hide()
         myCanvas = findViewById(R.id.my_canvas)
         val setWallpaper: Button = findViewById(R.id.set_wallpaper_button)
 //        myCanvas.setLayoutParams(LayoutParams(100, 200))
