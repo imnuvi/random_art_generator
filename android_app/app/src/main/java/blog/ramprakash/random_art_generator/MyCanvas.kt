@@ -1,10 +1,8 @@
-package com.example.random_art_generator
+package blog.ramprakash.random_art_generator
 
-import android.widget.ImageView
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.view.ContextMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.min
@@ -116,7 +114,6 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
 //        color_palette.add(Color.argb(255, 255, 179, 236))
         for (i in 1..4) {
             color_palette.add(Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)))
-            color_palette.add(Color.argb(255, 185, 255, 252))
         }
         return color_palette
     }

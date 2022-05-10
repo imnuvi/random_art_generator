@@ -1,4 +1,4 @@
-package com.example.random_art_generator
+package blog.ramprakash.random_art_generator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,14 +6,8 @@ import android.widget.Button
 import android.graphics.Bitmap
 import android.app.WallpaperManager
 import android.os.Build
-import android.widget.TextView
-import java.util.*
 import android.widget.Toast
-import android.widget.ImageView
-import android.view.ViewGroup.LayoutParams
-import android.view.View.OnClickListener
-import androidx.annotation.RequiresApi
-import com.example.random_art_generator.MyCanvasView
+import blog.ramprakash.random_art_generator.MyCanvasView
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
