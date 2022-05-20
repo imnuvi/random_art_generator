@@ -13,13 +13,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import android.os.Environment;
-
+import android.view.Window
+import android.view.WindowManager
 
 
 class MainActivity : AppCompatActivity() {
     private var my_bitmap: Bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
     private lateinit var myCanvas: MyCanvasView
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN )
+        this.supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_android)
 //        supportActionBar?.title = "xoll"

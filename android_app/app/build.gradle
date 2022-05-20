@@ -4,6 +4,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        testing {
+            storeFile file('/Users/ramprakash/tools/Keystore/private_key.pepk')
+            storePassword 'tyche'
+            keyAlias 'tyche'
+            keyPassword 'tyche'
+        }
+        random_art_generator {
+            storeFile file('/Users/ramprakash/tools/Keystore/random_art_generator/random_art_generator.jks')
+            storePassword 'random_art_generator'
+            keyAlias 'random_art_generator'
+            keyPassword 'random_art_generator'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -21,6 +35,7 @@ android {
             debuggable = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.testing
         }
     }
     compileOptions {
