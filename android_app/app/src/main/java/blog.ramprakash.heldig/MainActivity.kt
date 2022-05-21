@@ -1,13 +1,15 @@
 package blog.ramprakash.heldig
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.widget.Button
 import android.graphics.Bitmap
 import android.app.WallpaperManager
 import android.os.Build
 import android.widget.Toast
-import blog.ramprakash.heldig.MyCanvasView
+import android.view.Menu
+import android.view.MenuInflater
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,10 +17,12 @@ import java.io.FileOutputStream;
 import android.os.Environment;
 import android.view.Window
 import android.view.WindowManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
     private var my_bitmap: Bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+    private lateinit var bottomNav : BottomNavigationView
     private lateinit var myCanvas: MyCanvasView
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -26,6 +30,16 @@ class MainActivity : AppCompatActivity() {
         this.supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_android)
+        loadFragment(SettingsFragment())
+        bottomNav = findViewById(R.id.config_menubar) as BottomNavigationView
+        bottomNav.setOnNavigationItemReselectedListener {
+            when (it.itemId) {
+                R.id.settings -> {
+                    loadFragment(SettingsFragment())
+                    return@setOnNavigationItemReselectedListener
+                }
+            }
+        }
 //        supportActionBar?.title = "xoll"
         supportActionBar?.hide()
         myCanvas = findViewById(R.id.my_canvas)
@@ -35,6 +49,19 @@ class MainActivity : AppCompatActivity() {
         myCanvas.setOnClickListener (){
             myCanvas.invalidate()
         }
+    }
+
+    private  fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container,fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.config_menubar,menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     fun setWallpaper(view: android.view.View) {
