@@ -4,14 +4,14 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "blog.ramprakash.random_art_generator",
+  "applicationId": "blog.ramprakash.heldig",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
+      "versionCode": 1,
       "versionName": "1.0",
       "outputFile": "app-release.apk"
     }
