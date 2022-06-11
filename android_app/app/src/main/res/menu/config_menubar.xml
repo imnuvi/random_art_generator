@@ -2,9 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/settings"
-        android:title="@string/settings" />
+        android:title="@string/settings"
+        android:icon="@drawable/ic_nav_bar"
+        />
 
     <item android:id="@+id/generator"
-        android:title="@string/generator" />
+        android:title="@string/generator"
+        android:icon="@drawable/ic_nav_bar"
+        />
+    <item android:id="@+id/test"
+        android:title="test"
+        android:icon="@drawable/ic_nav_bar"
+        />
 
 </menu>

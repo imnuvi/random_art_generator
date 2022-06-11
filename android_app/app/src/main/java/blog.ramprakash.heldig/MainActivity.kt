@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_android)
         loadFragment(SettingsFragment())
-        bottomNav = findViewById(R.id.config_menubar) as BottomNavigationView
+        bottomNav = findViewById<BottomNavigationView>(R.id.config_menubar)
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.settings -> {
