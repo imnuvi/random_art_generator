@@ -30,17 +30,6 @@ class MainActivity : AppCompatActivity() {
         this.supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_android)
-        loadFragment(SettingsFragment())
-        bottomNav = findViewById(R.id.config_menubar) as BottomNavigationView
-        bottomNav.setOnNavigationItemReselectedListener {
-            when (it.itemId) {
-                R.id.settings -> {
-                    loadFragment(SettingsFragment())
-                    return@setOnNavigationItemReselectedListener
-                }
-            }
-        }
-//        supportActionBar?.title = "xoll"
         supportActionBar?.hide()
         myCanvas = findViewById(R.id.my_canvas)
         val setWallpaper: Button = findViewById(R.id.set_wallpaper_button)
@@ -49,19 +38,6 @@ class MainActivity : AppCompatActivity() {
         myCanvas.setOnClickListener (){
             myCanvas.invalidate()
         }
-    }
-
-    private  fun loadFragment(fragment: Fragment){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container,fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.config_menubar,menu)
-        return super.onCreateOptionsMenu(menu)
     }
 
     fun setWallpaper(view: android.view.View) {
