@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         val setWallpaper: Button = findViewById(R.id.set_wallpaper_button)
 //        myCanvas.setLayoutParams(LayoutParams(100, 200))
 
-        myCanvas.setOnClickListener (){
-            myCanvas.invalidate()
-        }
+//        myCanvas.setOnClickListener (){
+//            myCanvas.invalidate()
+//        }
     }
 
     fun setWallpaper(view: android.view.View) {

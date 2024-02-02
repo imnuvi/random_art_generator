@@ -8,6 +8,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.min
 import kotlin.math.floor
 import kotlin.random.Random
+import android.view.MotionEvent
+import android.util.Log
+
 
 class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int=0) : AppCompatImageView(context, attrs, defStyleAttr) {
     private lateinit var my_canvas: Canvas
@@ -95,6 +98,47 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        var touchXPos : Float? = event?.x
+        var touchYPos : Float? = event?.y
+
+        when (event?.action){
+            MotionEvent.ACTION_DOWN -> {}
+            MotionEvent.ACTION_MOVE -> {}
+            MotionEvent.ACTION_UP -> {
+                Log.d("CLICKY", touchXPos.toString() + "          " + touchYPos.toString())
+                if ((touchXPos.toString()).toFloat() > ww/2) {
+                    Log.d("ACTION", "Like")
+                }
+                else {
+                    Log.d("ACTION", "dislike")
+                }
+                for (col in palette){
+                    // Log.d("hex val", col.toString())
+                    val hex_string: String = String.format("%06X", (0xFFFFFF and col))
+                    var r: Int = Integer.parseInt(hex_string.substring(0, 2), 16); // 16 for hex
+                    var g: Int = Integer.parseInt(hex_string.substring(2, 4), 16); // 16 for hex
+                    var b: Int = Integer.parseInt(hex_string.substring(4, 6), 16); // 16 for hex
+                    Log.d("COL", Integer.toString(r) + "," + Integer.toString(g) + "," + Integer.toString(b))
+                    // return new int[] {r, g, b};
+                    // Log.d("COL INT", 0xFFFFFF and col)
+                    // Log.d("red", Color.red(col))
+                    // Log.d("green", Color.green(col))
+                    // Log.d("blue", Color.blue(col))
+                }
+                // var (watchPointX, watchPointY) = selectWatch(touchXPos, touchYPos)
+//                Log.d("CLICKY", watchPointX.toString() + "          " + watchPointY.toString())
+//                this.parentWatch.config = watchBoard[watchPointX][watchPointY].config
+//                Log.d("PCONF", parentWatch.config.mutationHashMap[0]!!.lengthMut.toString() + "               " + parentWatch.config.mutationHashMap[0]!!.angleMut.toString())
+//                Log.d("OCONF", watchBoard[watchPointX][watchPointY].config.mutationHashMap[0]!!.lengthMut.toString() + "               " + watchBoard[watchPointX][watchPointY].config.mutationHashMap[0]!!.angleMut.toString())
+//                parentWatch.startPos = Point(0.toFloat(),4.toFloat())
+                invalidate()
+            }
+        }
+//        handleTouch()
+        return super.onTouchEvent(event)
+    }
+
     fun getBitmap(): Bitmap{
         var my_bitmap: Bitmap = Bitmap.createBitmap(this.ww, this.wh, Bitmap.Config.ARGB_8888)
         return_canvas = Canvas(my_bitmap)
@@ -103,7 +147,6 @@ class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.copy_bitmap = false
         return my_bitmap
     }
-
 
     private fun create_palette() : MutableList<Int>{
         var color_palette : MutableList<Int> = mutableListOf()
