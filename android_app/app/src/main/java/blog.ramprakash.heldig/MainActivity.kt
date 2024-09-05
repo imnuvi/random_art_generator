@@ -1,4 +1,4 @@
-package blog.ramprakash.random_art_generator
+package blog.ramprakash.heldig
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,19 +7,23 @@ import android.graphics.Bitmap
 import android.app.WallpaperManager
 import android.os.Build
 import android.widget.Toast
-import blog.ramprakash.random_art_generator.MyCanvasView
+import blog.ramprakash.heldig.MyCanvasView
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import android.os.Environment;
-
+import android.view.Window
+import android.view.WindowManager
 
 
 class MainActivity : AppCompatActivity() {
     private var my_bitmap: Bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
     private lateinit var myCanvas: MyCanvasView
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN )
+        this.supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_android)
 //        supportActionBar?.title = "xoll"

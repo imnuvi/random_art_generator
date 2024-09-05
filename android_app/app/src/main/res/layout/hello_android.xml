@@ -7,7 +7,7 @@ android:layout_gravity="center_vertical"
 tools:context=".MainActivity"
 android:orientation="vertical">
 
-    <com.example.random_art_generator.MyCanvasView
+    <blog.ramprakash.heldig.MyCanvasView
         android:id="@+id/my_canvas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

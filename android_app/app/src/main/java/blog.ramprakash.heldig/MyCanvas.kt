@@ -1,4 +1,4 @@
-package blog.ramprakash.random_art_generator
+package blog.ramprakash.heldig
 
 import android.content.Context
 import android.graphics.*
