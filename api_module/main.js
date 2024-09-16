@@ -20,6 +20,7 @@ function create_word(length) {
 async function generate_image(){
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  page.setViewport({  width: 1000, height: 1000, deviceScaleFactor: 1})
   await page.goto(url, {waitUntil: 'networkidle2'});
   let imageBuf = await page.screenshot({type: 'png'});
   await browser.close();

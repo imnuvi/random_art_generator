@@ -1,5 +1,6 @@
 let cells = [];
-let minwidth = 50;
+let override_size = true;
+let minwidth = 25;
 let square_size = minwidth;
 let palette;
 
@@ -72,11 +73,13 @@ function init(){
 
   minwidth = 50;
   large = Math.max(ww,wh);
-  if (large/20 < minwidth) {
-    square_size = large/20
-  }
-  else {
-    square_size = minwidth
+  if(!override_size){
+    if (large/20 < minwidth) {
+      square_size = large/20
+    }
+    else {
+      square_size = minwidth
+    }
   }
   w_count = Math.round(ww/square_size)
   h_count = Math.round(wh/square_size)
