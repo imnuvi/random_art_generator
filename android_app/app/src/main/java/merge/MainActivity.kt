@@ -1,4 +1,4 @@
-package blog.ramprakash.heldig
+package blog.ramprakash.merge
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.app.WallpaperManager
 import android.os.Build
 import android.widget.Toast
-import blog.ramprakash.heldig.MyCanvasView
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,6 +14,7 @@ import java.io.FileOutputStream;
 import android.os.Environment;
 import android.view.Window
 import android.view.WindowManager
+
 
 
 class MainActivity : AppCompatActivity() {

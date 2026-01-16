@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace 'blog.ramprakash.merge'
     signingConfigs {
         testing {
             storeFile file('/Users/ramprakash/tools/Keystore/private_key.pepk')
@@ -12,19 +13,19 @@ android {
             keyPassword 'tyche'
         }
         random_art_generator {
-            storeFile file('/Users/ramprakash/tools/Keystore/random_art_generator/random_art_generator.jks')
-            storePassword 'random_art_generator'
-            keyAlias 'random_art_generator'
-            keyPassword 'random_art_generator'
+            storeFile file('/Users/ramprakash/development/keystore/tyche_keystore.jks')
+            storePassword 'tyche_keystore'
+            keyAlias 'tyche_keystore'
+            keyPassword 'tyche_keystore'
         }
     }
-    compileSdk 32
+    compileSdk 35
 
     defaultConfig {
-        applicationId "blog.ramprakash.heldig"
+        applicationId "blog.ramprakash.merge"
         minSdk 21
-        targetSdk 32
-        versionCode 1
+        targetSdk 35
+        versionCode 2
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -35,7 +36,7 @@ android {
             debuggable = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.testing
+            signingConfig signingConfigs.random_art_generator
         }
     }
     compileOptions {
@@ -45,17 +46,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildToolsVersion '32.0.0'
-    compileSdkVersion 32
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

@@ -1,4 +1,4 @@
-package blog.ramprakash.heldig
+package blog.ramprakash.merge
 
 import android.content.Context
 import android.graphics.*
@@ -6,31 +6,32 @@ import android.util.AttributeSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.min
-import kotlin.math.floor
 import kotlin.random.Random
 
 class MyCanvasView @JvmOverloads constructor(context: Context, attrs: AttributeSet?= null, defStyleAttr: Int=0) : AppCompatImageView(context, attrs, defStyleAttr) {
     private lateinit var my_canvas: Canvas
     private lateinit var return_canvas: Canvas
 
-    private var drawcolor = ResourcesCompat.getColor(resources, R.color.white, null)
-    private var bgcolor = ResourcesCompat.getColor(resources, R.color.black, null)
-    private var my_paint = Paint().apply {
-        color = drawcolor
-        style = Paint.Style.FILL
-        setBackgroundColor(bgcolor)
+    private val drawcolor by lazy { ResourcesCompat.getColor(resources, R.color.white, null) }
+    private val bgcolor by lazy { ResourcesCompat.getColor(resources, R.color.black, null) }
+    private val my_paint by lazy {
+        Paint().apply {
+            color = drawcolor
+            style = Paint.Style.FILL
+        }
     }
-    private var stroke_paint = Paint().apply {
-        color = drawcolor
-        style = Paint.Style.STROKE
-        setColor(drawcolor)
-        setStrokeWidth(2F)
-        setBackgroundColor(bgcolor)
+    private val stroke_paint by lazy {
+        Paint().apply {
+            color = drawcolor
+            style = Paint.Style.STROKE
+            strokeWidth = 2f
+        }
     }
-    private var bg_paint = Paint().apply {
-        color = drawcolor
-        style = Paint.Style.FILL
-        setBackgroundColor(bgcolor)
+    private val bg_paint by lazy {
+        Paint().apply {
+            color = bgcolor
+            style = Paint.Style.FILL
+        }
     }
     private var ww: Int = 0
     private var wh: Int = 0
